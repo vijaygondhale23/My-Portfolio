@@ -1,0 +1,477 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import "tailwindcss";
+
+/* ── Design Tokens ── */
+:root {
+  --bg: #0d0d0d;
+  --surface: #1a1f1d;
+  --accent: #3d6b56;
+  --accent-lt: #4e8a6e;
+  --accent-glow: rgba(61, 107, 86, 0.35);
+  --text-pri: #ffffff;
+  --text-sec: #9aafa6;
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Base ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-pri);
+  font-family: "Outfit", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* ── Selection ── */
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ── Typography helpers ── */
+.font-mono {
+  font-family: "JetBrains Mono", monospace;
+}
+.font-clash {
+  font-family: "Outfit", sans-serif;
+}
+
+/* ── Glass card ── */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ── Gradient text ── */
+.grad-text {
+  background: linear-gradient(135deg, #fff 0%, var(--accent-lt) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Ambient glow blobs ── */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+/* ── Section utility ── */
+.section-pad {
+  padding: 96px 0;
+}
+
+/* ── Pill badge ── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  background: rgba(61, 107, 86, 0.15);
+  border: 1px solid rgba(61, 107, 86, 0.4);
+  color: var(--accent-lt);
+}
+
+/* ── Skill badge ── */
+.skill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: "JetBrains Mono", monospace;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  color: var(--text-sec);
+  transition: all 0.25s ease;
+  cursor: default;
+}
+.skill-badge:hover {
+  background: rgba(61, 107, 86, 0.15);
+  border-color: rgba(61, 107, 86, 0.5);
+  color: var(--text-pri);
+  transform: translateY(-2px);
+}
+
+/* ── Timeline ── */
+.timeline-line {
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+}
+
+/* ── Animated underline ── */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent-lt);
+  transition: width 0.3s ease;
+}
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* ── Primary button ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background: var(--accent-lt);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(61, 107, 86, 0.4);
+}
+
+/* ── Secondary button ── */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  background: transparent;
+  color: var(--text-pri);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent-lt);
+  transform: translateY(-2px);
+}
+
+/* ── Floating nodes (hero decorations) ── */
+@keyframes float-node {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-12px) rotate(2deg);
+  }
+  66% {
+    transform: translateY(6px) rotate(-1deg);
+  }
+}
+
+.float-node {
+  animation: float-node 6s ease-in-out infinite;
+}
+
+/* ── Scroll indicator pulse ── */
+@keyframes scroll-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 0.5;
+  }
+}
+.scroll-bounce {
+  animation: scroll-bounce 1.8s ease-in-out infinite;
+}
+
+/* ── Spin slow ── */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+/* ── Shimmer border ── */
+@keyframes shimmer-border {
+  0% {
+    border-color: rgba(61, 107, 86, 0.2);
+  }
+  50% {
+    border-color: rgba(61, 107, 86, 0.6);
+  }
+  100% {
+    border-color: rgba(61, 107, 86, 0.2);
+  }
+}
+.shimmer-border {
+  animation: shimmer-border 3s ease-in-out infinite;
+}
+
+/* ── Input focus ── */
+.form-input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  color: var(--text-pri);
+  font-family: "Outfit", sans-serif;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.25s ease;
+}
+.form-input::placeholder {
+  color: var(--text-sec);
+}
+.form-input:focus {
+  border-color: var(--accent);
+}
+
+/* ── Section label ── */
+.section-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent-lt);
+}
+
+/* ── Project card ── */
+.project-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.project-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.project-card:hover {
+  border-color: rgba(61, 107, 86, 0.4);
+  transform: translateY(-4px);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(61, 107, 86, 0.08);
+}
+.project-card:hover::before {
+  opacity: 1;
+}
+
+/* ── Contact card ── */
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+.contact-card:hover {
+  background: rgba(61, 107, 86, 0.1);
+  border-color: rgba(61, 107, 86, 0.4);
+  transform: translateX(4px);
+}
+
+/* ── Responsive container ── */
+.container-max {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+@media (max-width: 768px) {
+  .container-max {
+    padding: 0 16px;
+  }
+  .section-pad {
+    padding: 72px 0;
+  }
+}
+
+/* ── Skills cards: stack icon grid above text on smaller screens ── */
+@media (max-width: 768px) {
+  .skill-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .skill-icon-grid {
+    grid-template-columns: repeat(3, 60px) !important;
+    justify-content: center;
+  }
+}
+
+/* ── About: Responsive fixes ── */
+@media (max-width: 900px) {
+  .about-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  .about-header h2 {
+    max-width: 100% !important;
+    margin-bottom: 32px !important;
+  }
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+    text-align: center;
+  }
+  .skill-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* ── Skills: Responsive fixes ── */
+@media (max-width: 1024px) {
+  .skill-card-grid {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+    gap: 32px !important;
+  }
+  .skill-icon-grid {
+    margin: 0 auto !important;
+    justify-self: center;
+  }
+  .skill-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .skill-info p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* Center tag chips */
+  .skill-info > div:last-child {
+    justify-content: center !important;
+  }
+  .skills-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  .skills-header h2 {
+    max-width: 100% !important;
+  }
+
+  /* ── Icon Grid & Tiles: Responsive sizing ── */
+  .skill-icon-grid {
+    grid-template-columns: repeat(3, minmax(60px, 80px)) !important;
+    justify-content: center;
+    gap: 16px !important;
+  }
+  
+  .skill-icon-tile {
+    width: 100% !important;
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+  }
+
+  .skill-info {
+    text-align: center;
+  }
+
+  .skill-info p {
+    max-width: 100% !important;
+    margin-bottom: 24px !important;
+  }
+}
+
+/* ── Experience timeline: tighten spacing on mobile ── */
+@media (max-width: 640px) {
+  .exp-timeline {
+    padding-left: 32px !important;
+  }
+  .exp-dot {
+    left: -24px !important;
+  }
+  .exp-dot-ring {
+    left: -27px !important;
+  }
+}
+
+/* ── Projects / Contact / Education grids: avoid overflow on narrow screens ── */
+@media (max-width: 480px) {
+  .project-card {
+    padding: 20px;
+  }
+  .btn-primary, .btn-secondary {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
