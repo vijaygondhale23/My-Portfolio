@@ -21,7 +21,12 @@ export default function Footer() {
           gap: '12px',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div 
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: 'auto' });
+          }}
+          style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
+        >
           <div style={{
             width: 32, height: 32, borderRadius: 8,
             background: 'var(--btn-fill-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center',
