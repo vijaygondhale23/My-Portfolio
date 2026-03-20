@@ -4,8 +4,8 @@ import { MapPin, GraduationCap, Briefcase, Github, Linkedin, Star } from 'lucide
 import Starfield from '../components/Starfield';
 
 const STATS = [
-  { icon: <Briefcase size={16} />, label: '1 Year Exp',   desc: 'Wipro Ltd' },
-  { icon: <Star size={16} />,      label: '2 Projects',   desc: 'Full-stack & Frontend' },
+  { icon: <Briefcase size={16} />, label: '4 Months Exp',   desc: 'Wipro Ltd' },
+  { icon: <Star size={16} />,      label: '3 Projects',   desc: 'Full-stack & Frontend' },
   { icon: <GraduationCap size={16} />, label: '8.05 CGPA', desc: 'B.Sc. CS' },
   { icon: <MapPin size={16} />,    label: 'Thane, India', desc: 'Maharashtra' },
 ];
@@ -55,7 +55,7 @@ export default function About() {
                   visually compelling web applications using React.js and modern CSS frameworks.
                 </p>
                 <p style={{ color: 'var(--text-sec)', lineHeight: 1.85, fontSize: '16px' }}>
-                  Currently working at <strong style={{ color: 'var(--text-pri)' }}>Wipro Ltd</strong> on the
+                  Had Experience at <strong style={{ color: 'var(--text-pri)' }}>Wipro Ltd</strong>  in
                   Cisco SRTS Team, I bridge the gap between design and engineering — turning
                   complex requirements into elegant user experiences.
                 </p>

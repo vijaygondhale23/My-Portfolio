@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Download } from 'lucide-react';
 
 export default function Hero() {
   const scrollToProjects = () => {
@@ -63,13 +63,16 @@ export default function Hero() {
             >
               Projects
             </button>
-            <button
-              onClick={scrollToContact}
-              id="hero-contact-btn"
+            <a
+              href="https://drive.google.com/file/d/1xWMRuORDtz4Ud8zE-5SP3dUmPb7L4ZSc/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              id="hero-cv-btn"
               className="hero-btn-outline"
+              style={{ textDecoration: 'none' }}
             >
-              Contact <ArrowRight size={16} />
-            </button>
+              Download CV <Download size={16} />
+            </a>
           </motion.div>
         </div>
 

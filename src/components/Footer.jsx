@@ -32,7 +32,7 @@ export default function Footer() {
         </div>
 
         <p style={{ color: 'var(--text-sec)', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          Crafted with <Heart size={14} color="var(--accent-lt)" fill="var(--accent-lt)" /> &amp; React · © {year}
+          Crafted with <Heart size={14} color="var(--accent-lt)" fill="var(--accent-lt)" /> &amp; React · © {year} Vijay Gondhale
         </p>
 
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
