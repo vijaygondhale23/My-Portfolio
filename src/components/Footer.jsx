@@ -7,8 +7,8 @@ export default function Footer() {
     <footer
       style={{
         padding: '32px 24px',
-        borderTop: '1px solid rgba(255,255,255,0.06)',
-        background: 'rgba(13,13,13,0.8)',
+        borderTop: '1px solid var(--border)',
+        background: 'var(--footer-bg)',
       }}
     >
       <div
@@ -24,11 +24,11 @@ export default function Footer() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{
             width: 32, height: 32, borderRadius: 8,
-            background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: 'var(--btn-fill-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <Code2 size={16} color="#fff" />
+            <Code2 size={16} color="var(--btn-fill-color)" />
           </div>
-          <span style={{ fontWeight: 700, color: '#fff' }}>Vijay Gondhale</span>
+          <span style={{ fontWeight: 700, color: 'var(--text-pri)' }}>Vijay Gondhale</span>
         </div>
 
         <p style={{ color: 'var(--text-sec)', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -38,7 +38,7 @@ export default function Footer() {
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <a href="https://linkedin.com/in/vgondhale23" target="_blank" rel="noreferrer"
             style={{ color: 'var(--text-sec)', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.transform = 'scale(1.1)'; }}
+            onMouseEnter={e => { e.currentTarget.style.color = 'var(--text-pri)'; e.currentTarget.style.transform = 'scale(1.1)'; }}
             onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-sec)'; e.currentTarget.style.transform = 'scale(1)'; }}
             aria-label="LinkedIn"
           >
@@ -48,7 +48,7 @@ export default function Footer() {
           </a>
           <a href="https://github.com/vijaygondhale23" target="_blank" rel="noreferrer"
             style={{ color: 'var(--text-sec)', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.transform = 'scale(1.1)'; }}
+            onMouseEnter={e => { e.currentTarget.style.color = 'var(--text-pri)'; e.currentTarget.style.transform = 'scale(1.1)'; }}
             onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-sec)'; e.currentTarget.style.transform = 'scale(1)'; }}
             aria-label="GitHub"
           >

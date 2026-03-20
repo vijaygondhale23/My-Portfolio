@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { MapPin, Calendar, ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
+import Starfield from '../components/Starfield';
 
 const EXPERIENCE = [
   {
@@ -28,8 +29,9 @@ export default function Experience() {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <section id="experience" className="section-pad" ref={ref}>
-      <div className="container-max">
+    <section id="experience" className="section-pad" ref={ref} style={{ position: 'relative', overflow: 'hidden' }}>
+      <Starfield />
+      <div className="container-max" style={{ position: 'relative', zIndex: 1 }}>
         <motion.p
           className="section-label"
           initial={{ opacity: 0, y: 20 }}
@@ -43,7 +45,7 @@ export default function Experience() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.1, duration: 0.6 }}
-          style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, marginBottom: '64px', maxWidth: '540px' }}
+          style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, marginBottom: '64px', maxWidth: '540px', color: 'var(--text-pri)' }}
         >
           Where I've{' '}
           <span className="grad-text">worked</span>
@@ -58,7 +60,7 @@ export default function Experience() {
             style={{
               position: 'absolute', left: '19px', top: '24px',
               width: '2px', height: 'calc(100% - 24px)',
-              background: 'linear-gradient(to bottom, var(--accent), rgba(61,107,86,0.1))',
+              background: 'linear-gradient(to bottom, var(--accent), var(--timeline-color))',
               transformOrigin: 'top',
             }}
           />
@@ -78,14 +80,14 @@ export default function Experience() {
                 borderRadius: '50%',
                 background: job.current ? 'var(--accent)' : 'var(--surface)',
                 border: '2px solid var(--accent)',
-                boxShadow: job.current ? '0 0 16px rgba(61,107,86,0.6)' : 'none',
+                boxShadow: job.current ? '0 0 16px var(--accent-glow)' : 'none',
               }} />
               {job.current && (
                 <div className="exp-dot-ring" style={{
                   position: 'absolute', left: -41, top: '21px',
                   width: '22px', height: '22px',
                   borderRadius: '50%',
-                  border: '1px solid rgba(61,107,86,0.4)',
+                  border: '1px solid var(--border-hover)',
                   animation: 'scroll-bounce 2s ease-in-out infinite',
                 }} />
               )}
@@ -98,7 +100,7 @@ export default function Experience() {
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
                   <div>
                     <div style={{ display: 'flex', align: 'center', gap: '10px', flexWrap: 'wrap', marginBottom: '6px' }}>
-                      <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#fff' }}>{job.company}</h3>
+                      <h3 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-pri)' }}>{job.company}</h3>
                       {job.current && (
                         <span className="pill" style={{ fontSize: '11px', padding: '3px 10px' }}>
                           <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px #4ade80', display: 'inline-block' }} />
@@ -133,7 +135,7 @@ export default function Experience() {
                     fontFamily: 'JetBrains Mono, monospace', padding: 0,
                     transition: 'color 0.2s',
                   }}
-                  onMouseEnter={e => e.currentTarget.style.color = 'var(--accent-lt)'}
+                  onMouseEnter={e => e.currentTarget.style.color = 'var(--text-pri)'}
                   onMouseLeave={e => e.currentTarget.style.color = 'var(--text-sec)'}
                 >
                   {expanded ? <><ChevronUp size={14} /> Hide details</> : <><ChevronDown size={14} /> Show details</>}
@@ -161,8 +163,8 @@ export default function Experience() {
                         key={t}
                         style={{
                           padding: '4px 12px', borderRadius: '6px',
-                          background: 'rgba(61,107,86,0.1)',
-                          border: '1px solid rgba(61,107,86,0.25)',
+                          background: 'var(--tag-bg)',
+                          border: '1px solid var(--tag-border)',
                           color: 'var(--accent-lt)',
                           fontSize: '12px',
                           fontFamily: 'JetBrains Mono, monospace',

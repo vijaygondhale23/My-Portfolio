@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Mail, Phone, Linkedin, Github, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
+import Starfield from '../components/Starfield';
 
 const CONTACT_CARDS = [
   {
@@ -37,7 +38,7 @@ const CONTACT_CARDS = [
 export default function Contact() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [status, setStatus] = useState('idle'); // idle | sending | success | error
+  const [status, setStatus] = useState('idle');
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -47,7 +48,6 @@ export default function Contact() {
     e.preventDefault();
     setStatus('sending');
     try {
-      // Using Formspree (replace YOUR_FORM_ID with actual Formspree form ID)
       const res = await fetch('https://formspree.io/f/xpwqgrkd', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -75,6 +75,7 @@ export default function Contact() {
       ref={ref}
       style={{ position: 'relative', overflow: 'hidden' }}
     >
+      <Starfield />
       {/* Ambient glow */}
       <div
         className="blob"
@@ -82,7 +83,7 @@ export default function Contact() {
           width: 500, height: 500,
           top: '10%', left: '50%',
           transform: 'translateX(-50%)',
-          background: 'radial-gradient(circle, rgba(61,107,86,0.18) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)',
         }}
       />
 
@@ -95,7 +96,7 @@ export default function Contact() {
         >
           <p className="section-label" style={{ marginBottom: '12px' }}>Get In Touch</p>
           <h2
-            style={{ fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 800, lineHeight: 1.15, marginBottom: '20px' }}
+            style={{ fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 800, lineHeight: 1.15, marginBottom: '20px', color: 'var(--text-pri)' }}
           >
             Let's Build Something{' '}
             <span className="grad-text">Together</span>
@@ -114,7 +115,7 @@ export default function Contact() {
             transition={{ delay: 0.2, duration: 0.6 }}
             style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
           >
-            <p style={{ fontWeight: 600, fontSize: '16px', marginBottom: '8px' }}>Contact Details</p>
+            <p style={{ fontWeight: 600, fontSize: '16px', marginBottom: '8px', color: 'var(--text-pri)' }}>Contact Details</p>
             {CONTACT_CARDS.map(({ id, icon, label, value, href }) => (
               <a
                 key={id}
@@ -126,8 +127,8 @@ export default function Contact() {
               >
                 <div style={{
                   width: 44, height: 44, borderRadius: '12px',
-                  background: 'rgba(61,107,86,0.15)',
-                  border: '1px solid rgba(61,107,86,0.3)',
+                  background: 'var(--tag-bg)',
+                  border: '1px solid var(--tag-border)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: 'var(--accent-lt)', flexShrink: 0,
                 }}>
@@ -135,7 +136,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-sec)', letterSpacing: '1px', marginBottom: '2px', textTransform: 'uppercase' }}>{label}</p>
-                  <p style={{ fontSize: '14px', fontWeight: 500, color: '#fff' }}>{value}</p>
+                  <p style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-pri)' }}>{value}</p>
                 </div>
               </a>
             ))}
@@ -147,7 +148,7 @@ export default function Contact() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.3, duration: 0.6 }}
           >
-            <p style={{ fontWeight: 600, fontSize: '16px', marginBottom: '20px' }}>Send a Message</p>
+            <p style={{ fontWeight: 600, fontSize: '16px', marginBottom: '20px', color: 'var(--text-pri)' }}>Send a Message</p>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
                 <label htmlFor="contact-name" style={{ fontSize: '13px', color: 'var(--text-sec)', fontFamily: 'JetBrains Mono, monospace', display: 'block', marginBottom: '8px' }}>
@@ -201,8 +202,8 @@ export default function Contact() {
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: '10px',
                   padding: '14px 18px', borderRadius: '10px',
-                  background: 'rgba(61,107,86,0.1)', border: '1px solid rgba(61,107,86,0.3)',
-                  color: 'var(--accent-lt)', fontSize: '14px',
+                  background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)',
+                  color: '#22c55e', fontSize: '14px',
                 }}>
                   <CheckCircle size={16} />
                   Message sent! I'll reply within 24 hours. 🎉

@@ -1,15 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import Starfield from '../components/Starfield';
 
-// ─────────────────────────────────────────────────────────────────
-// SKILLS DATA — easy to add/remove skills by editing this array
-// Each category has:
-//   - title: displayed heading
-//   - accent: highlight colour for the title
-//   - description: short blurb
-//   - icons: array of { label, bg, svg } — add any icon here
-//   - tags: feature chips shown below the description
-// ─────────────────────────────────────────────────────────────────
 const SKILL_CATEGORIES = [
   {
     id: 'frontend',
@@ -187,9 +179,6 @@ const SKILL_CATEGORIES = [
   },
 ];
 
-// ─────────────────────────────────────────────────────────────────
-// Tag chip — small pill with a simple dot icon
-// ─────────────────────────────────────────────────────────────────
 function TagChip({ label }) {
   return (
     <span
@@ -199,23 +188,23 @@ function TagChip({ label }) {
         gap: '8px',
         padding: '7px 14px',
         borderRadius: '8px',
-        border: '1px solid rgba(255,255,255,0.1)',
+        border: '1px solid var(--tag-border)',
         fontSize: '13px',
         color: 'var(--text-sec)',
-        background: 'rgba(255,255,255,0.03)',
+        background: 'var(--tag-bg)',
         transition: 'all 0.2s',
         cursor: 'default',
         whiteSpace: 'nowrap',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = 'rgba(61,107,86,0.5)';
-        e.currentTarget.style.color = '#fff';
-        e.currentTarget.style.background = 'rgba(61,107,86,0.08)';
+        e.currentTarget.style.borderColor = 'var(--tag-hover-border)';
+        e.currentTarget.style.color = 'var(--text-pri)';
+        e.currentTarget.style.background = 'var(--tag-hover-bg)';
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+        e.currentTarget.style.borderColor = 'var(--tag-border)';
         e.currentTarget.style.color = 'var(--text-sec)';
-        e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
+        e.currentTarget.style.background = 'var(--tag-bg)';
       }}
     >
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -227,9 +216,6 @@ function TagChip({ label }) {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Icon tile in the grid
-// ─────────────────────────────────────────────────────────────────
 function IconTile({ icon, index, inView }) {
   return (
     <motion.div
@@ -243,22 +229,19 @@ function IconTile({ icon, index, inView }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        boxShadow: '0 4px 16px rgba(0,0,0,0.35)',
+        boxShadow: '0 4px 16px var(--icon-tile-shadow)',
         flexShrink: 0,
         transition: 'transform 0.2s, box-shadow 0.2s',
         cursor: 'default',
       }}
       className="skill-icon-tile"
-      whileHover={{ scale: 1.12, boxShadow: '0 8px 28px rgba(0,0,0,0.5)' }}
+      whileHover={{ scale: 1.12, boxShadow: '0 8px 28px var(--icon-tile-shadow)' }}
     >
       {icon.svg}
     </motion.div>
   );
 }
 
-// ─────────────────────────────────────────────────────────────────
-// One category card
-// ─────────────────────────────────────────────────────────────────
 function SkillCard({ category, index }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 });
 
@@ -274,18 +257,18 @@ function SkillCard({ category, index }) {
         gridTemplateColumns: 'auto 1fr',
         gap: '36px',
         alignItems: 'center',
-        background: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(255,255,255,0.07)',
+        background: 'var(--card-bg)',
+        border: '1px solid var(--card-border)',
         borderRadius: '20px',
         padding: '32px',
         transition: 'border-color 0.3s, box-shadow 0.3s',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = 'rgba(61,107,86,0.35)';
-        e.currentTarget.style.boxShadow = '0 0 40px rgba(61,107,86,0.06)';
+        e.currentTarget.style.borderColor = 'var(--border-hover)';
+        e.currentTarget.style.boxShadow = '0 0 40px var(--accent-glow)';
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
+        e.currentTarget.style.borderColor = 'var(--card-border)';
         e.currentTarget.style.boxShadow = 'none';
       }}
     >
@@ -293,7 +276,7 @@ function SkillCard({ category, index }) {
       <div
         className="skill-icon-grid"
         style={{
-          background: 'rgba(0,0,0,0.3)',
+          background: 'var(--code-bg)',
           borderRadius: '16px',
           padding: '20px',
           display: 'grid',
@@ -318,7 +301,7 @@ function SkillCard({ category, index }) {
             fontSize: 'clamp(18px, 2.5vw, 24px)',
             fontWeight: 800,
             letterSpacing: '2px',
-            color: 'var(--accent-lt)',
+            color: 'var(--text-pri)',
             marginBottom: '14px',
           }}
         >
@@ -356,15 +339,13 @@ function SkillCard({ category, index }) {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Section root
-// ─────────────────────────────────────────────────────────────────
 export default function Skills() {
   const [headerRef, headerInView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="skills" className="section-pad" style={{ background: 'rgba(255,255,255,0.01)' }}>
-      <div className="container-max">
+    <section id="skills" className="section-pad" style={{ background: 'var(--bg-alt)', position: 'relative', overflow: 'hidden' }}>
+      <Starfield />
+      <div className="container-max" style={{ position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <div ref={headerRef} className="skills-header">
           <motion.p
@@ -385,6 +366,7 @@ export default function Skills() {
               fontWeight: 700,
               marginBottom: '56px',
               maxWidth: '540px',
+              color: 'var(--text-pri)',
             }}
           >
             Tools &amp; technologies I{' '}

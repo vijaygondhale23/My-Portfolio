@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Github, ExternalLink, Calendar } from 'lucide-react';
+import Starfield from '../components/Starfield';
 
 const PROJECTS = [
   {
@@ -68,14 +69,14 @@ const MotionCard = ({ project, i, inView }) => (
     <div style={{
       width: '100%', aspectRatio: '16/10',
       borderRadius: '12px', overflow: 'hidden',
-      marginBottom: '4px', background: 'rgba(255,255,255,0.05)'
+      marginBottom: '4px', background: 'var(--card-bg)'
     }}>
       <div
         style={{
           width: '100%', height: '100%',
           display: 'flex', flexDirection: 'column',
           alignItems: 'center', justifyContent: 'center',
-          background: '#0a0d14', /* Dark background */
+          background: 'var(--surface)',
           transition: 'transform 0.4s ease',
         }}
         onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
@@ -96,13 +97,13 @@ const MotionCard = ({ project, i, inView }) => (
               fontFamily: 'JetBrains Mono, monospace', letterSpacing: '1px', textTransform: 'uppercase',
               background: `${project.accent}22`,
               border: `1px solid ${project.accent}55`,
-              color: project.accent === '#3D6B56' ? 'var(--accent-lt)' : '#6ab4d4',
+              color: 'var(--accent-lt)',
             }}
           >
             {project.badge}
           </span>
         </div>
-        <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '6px' }}>
+        <h3 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-pri)', marginBottom: '6px' }}>
           {project.title}
         </h3>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-sec)', fontSize: '13px' }}>
@@ -122,19 +123,19 @@ const MotionCard = ({ project, i, inView }) => (
             style={{
               width: 36, height: 36, borderRadius: '8px',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              background: 'var(--tag-bg)',
+              border: '1px solid var(--tag-border)',
               color: 'var(--text-sec)',
               transition: 'all 0.2s',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.background = 'rgba(61,107,86,0.15)';
-              e.currentTarget.style.borderColor = 'rgba(61,107,86,0.5)';
-              e.currentTarget.style.color = 'var(--accent-lt)';
+              e.currentTarget.style.background = 'var(--tag-hover-bg)';
+              e.currentTarget.style.borderColor = 'var(--tag-hover-border)';
+              e.currentTarget.style.color = 'var(--text-pri)';
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+              e.currentTarget.style.background = 'var(--tag-bg)';
+              e.currentTarget.style.borderColor = 'var(--tag-border)';
               e.currentTarget.style.color = 'var(--text-sec)';
             }}
             aria-label={`GitHub for ${project.title}`}
@@ -151,8 +152,8 @@ const MotionCard = ({ project, i, inView }) => (
             style={{
               width: 36, height: 36, borderRadius: '8px',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              background: 'var(--tag-bg)',
+              border: '1px solid var(--tag-border)',
               color: 'var(--text-sec)',
               transition: 'all 0.2s',
             }}
@@ -176,21 +177,21 @@ const MotionCard = ({ project, i, inView }) => (
           key={t}
           style={{
             padding: '5px 12px', borderRadius: '7px',
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
+            background: 'var(--tag-bg)',
+            border: '1px solid var(--tag-border)',
             color: 'var(--text-sec)',
             fontSize: '12px',
             fontFamily: 'JetBrains Mono, monospace',
             transition: 'all 0.2s',
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.background = `${project.accent}18`;
-            e.currentTarget.style.borderColor = `${project.accent}44`;
-            e.currentTarget.style.color = project.accent === '#3D6B56' ? 'var(--accent-lt)' : '#6ab4d4';
+            e.currentTarget.style.background = 'var(--tag-hover-bg)';
+            e.currentTarget.style.borderColor = 'var(--tag-hover-border)';
+            e.currentTarget.style.color = 'var(--text-pri)';
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
-            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+            e.currentTarget.style.background = 'var(--tag-bg)';
+            e.currentTarget.style.borderColor = 'var(--tag-border)';
             e.currentTarget.style.color = 'var(--text-sec)';
           }}
         >
@@ -226,9 +227,10 @@ export default function Projects() {
       id="projects"
       className="section-pad"
       ref={ref}
-      style={{ background: 'rgba(255,255,255,0.01)' }}
+      style={{ background: 'var(--bg-alt)', position: 'relative', overflow: 'hidden' }}
     >
-      <div className="container-max">
+      <Starfield />
+      <div className="container-max" style={{ position: 'relative', zIndex: 1 }}>
         <motion.p
           className="section-label"
           initial={{ opacity: 0, y: 20 }}
@@ -242,7 +244,7 @@ export default function Projects() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.1, duration: 0.6 }}
-          style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, marginBottom: '64px', maxWidth: '540px' }}
+          style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, marginBottom: '64px', maxWidth: '540px', color: 'var(--text-pri)' }}
         >
           Things I've{' '}
           <span className="grad-text">built</span>

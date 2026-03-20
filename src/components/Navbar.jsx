@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Code2 } from 'lucide-react';
+import { Menu, X, Code2, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../ThemeContext';
 
 const NAV_LINKS = [
   { label: 'Home',       href: '#home',       num: '01' },
@@ -15,14 +16,13 @@ export default function Navbar() {
   const [isOpen, setIsOpen]     = useState(false);
   const [active, setActive]     = useState('home');
   const [scrolled, setScrolled] = useState(false);
+  const { theme, toggleTheme }  = useTheme();
 
-  // Lock body scroll when drawer is open
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
-  // Active section tracking
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
@@ -55,11 +55,11 @@ export default function Navbar() {
           zIndex: 1000,
           transition: 'all 0.3s ease',
           padding: scrolled ? '10px 0' : '18px 0',
-          background: scrolled ? 'rgba(13,13,13,0.92)' : 'transparent',
+          background: scrolled ? 'var(--nav-bg)' : 'transparent',
           backdropFilter: scrolled ? 'blur(20px)' : 'none',
           WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
           borderBottom: scrolled
-            ? '1px solid rgba(255,255,255,0.06)'
+            ? '1px solid var(--border)'
             : '1px solid transparent',
         }}
       >
@@ -78,24 +78,23 @@ export default function Navbar() {
             onClick={(e) => { e.preventDefault(); handleNav('#home'); }}
             style={{
               display: 'flex', alignItems: 'center', gap: '10px',
-              textDecoration: 'none', color: '#fff',
+              textDecoration: 'none', color: 'var(--text-pri)',
               fontWeight: 700, fontSize: '19px', flexShrink: 0,
             }}
           >
             <div style={{
               width: 36, height: 36, borderRadius: 10,
-              background: 'var(--accent)',
+              background: 'var(--btn-fill-bg)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 0 20px rgba(61,107,86,0.5)',
             }}>
-              <Code2 size={18} color="#fff" />
+              <Code2 size={18} color="var(--btn-fill-color)" />
             </div>
             <span>VG</span>
           </a>
 
-          {/* Desktop nav links — hidden below lg (1024px) */}
+          {/* Desktop nav links — hidden on mobile */}
           <ul
-            className="hidden lg:flex"
+            className="nav-desktop-links"
             style={{
               alignItems: 'center',
               gap: '2px', listStyle: 'none',
@@ -116,16 +115,16 @@ export default function Navbar() {
                       borderRadius: '8px',
                       fontSize: '15.5px',
                       fontWeight: isActive ? 600 : 400,
-                      color: isActive ? '#fff' : 'var(--text-sec)',
-                      background: isActive ? 'rgba(61,107,86,0.2)' : 'transparent',
+                      color: isActive ? 'var(--text-pri)' : 'var(--text-sec)',
+                      background: isActive ? 'var(--nav-active-bg)' : 'transparent',
                       textDecoration: 'none',
                       transition: 'all 0.2s ease',
                       border: isActive
-                        ? '1px solid rgba(61,107,86,0.4)'
+                        ? '1px solid var(--nav-active-border)'
                         : '1px solid transparent',
                       letterSpacing: '0.01em',
                     }}
-                    onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = '#fff'; }}
+                    onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = 'var(--text-pri)'; }}
                     onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = 'var(--text-sec)'; }}
                   >
                     {label}
@@ -135,8 +134,16 @@ export default function Navbar() {
             })}
           </ul>
 
-          {/* Hire Me CTA — desktop only */}
-          <div className="hidden lg:flex">
+          {/* Desktop right side: theme toggle + CTA — hidden on mobile */}
+          <div className="nav-desktop-right" style={{ alignItems: 'center', gap: '10px' }}>
+            <button
+              onClick={toggleTheme}
+              className="theme-toggle"
+              aria-label="Toggle theme"
+              id="theme-toggle-desktop"
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
             <a
               href="#contact"
               onClick={(e) => { e.preventDefault(); handleNav('#contact'); }}
@@ -147,39 +154,47 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Hamburger — mobile/tablet only (hidden on lg+) */}
-          <button
-            id="hamburger-btn"
-            onClick={() => setIsOpen(true)}
-            className="flex lg:hidden"
-            style={{
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              color: '#fff',
-              padding: '8px',
-              alignItems: 'center', justifyContent: 'center',
-              transition: 'background 0.2s',
-            }}
-            aria-label="Open menu"
-            onMouseEnter={e => e.currentTarget.style.background = 'rgba(61,107,86,0.2)'}
-            onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
-          >
-            <Menu size={22} />
-          </button>
+          {/* Mobile: theme toggle + hamburger — hidden on desktop */}
+          <div className="nav-mobile-right" style={{ alignItems: 'center', gap: '8px' }}>
+            <button
+              onClick={toggleTheme}
+              className="theme-toggle"
+              aria-label="Toggle theme"
+              id="theme-toggle-mobile"
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+            <button
+              id="hamburger-btn"
+              onClick={() => setIsOpen(true)}
+              style={{
+                background: 'var(--card-bg)',
+                border: '1px solid var(--border)',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                color: 'var(--text-pri)',
+                padding: '8px',
+                display: 'flex',
+                alignItems: 'center', justifyContent: 'center',
+                transition: 'background 0.2s',
+              }}
+              aria-label="Open menu"
+            >
+              <Menu size={22} />
+            </button>
+          </div>
         </div>
       </nav>
 
-      {/* ─────────────── Slide-in Left Drawer ─────────────── */}
+      {/* ─────────────── Slide-in Right Drawer ─────────────── */}
 
-      {/* Backdrop overlay — fades in */}
+      {/* Backdrop */}
       <div
         onClick={() => setIsOpen(false)}
         style={{
           position: 'fixed', inset: 0,
           zIndex: 1100,
-          background: 'rgba(0,0,0,0.65)',
+          background: 'rgba(0,0,0,0.5)',
           backdropFilter: 'blur(4px)',
           WebkitBackdropFilter: 'blur(4px)',
           opacity: isOpen ? 1 : 0,
@@ -189,7 +204,7 @@ export default function Navbar() {
         aria-hidden="true"
       />
 
-      {/* Drawer panel — slides in from the left */}
+      {/* Drawer panel */}
       <div
         id="mobile-menu"
         style={{
@@ -198,16 +213,16 @@ export default function Navbar() {
           width: '300px',
           maxWidth: '85vw',
           zIndex: 1200,
-          background: 'rgba(13,16,14,0.97)',
+          background: 'var(--drawer-bg)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
-          borderLeft: '1px solid rgba(255,255,255,0.08)',
+          borderLeft: '1px solid var(--border)',
           display: 'flex',
           flexDirection: 'column',
           padding: '28px 0',
           transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
           transition: 'transform 0.38s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: isOpen ? '-8px 0 40px rgba(0,0,0,0.5)' : 'none',
+          boxShadow: isOpen ? '-8px 0 40px rgba(0,0,0,0.2)' : 'none',
           overflowY: 'auto',
         }}
       >
@@ -217,30 +232,27 @@ export default function Navbar() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 24px 28px',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          borderBottom: '1px solid var(--border)',
           marginBottom: '8px',
         }}>
-          {/* Logo inside drawer */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{
               width: 32, height: 32, borderRadius: 8,
-              background: 'var(--accent)',
+              background: 'var(--btn-fill-bg)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 0 16px rgba(61,107,86,0.5)',
             }}>
-              <Code2 size={15} color="#fff" />
+              <Code2 size={15} color="var(--btn-fill-color)" />
             </div>
-            <span style={{ fontWeight: 700, fontSize: '16px', color: '#fff' }}>
+            <span style={{ fontWeight: 700, fontSize: '16px', color: 'var(--text-pri)' }}>
               Vijay Gondhale
             </span>
           </div>
 
-          {/* Close button */}
           <button
             onClick={() => setIsOpen(false)}
             style={{
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              background: 'var(--card-bg)',
+              border: '1px solid var(--border)',
               borderRadius: '8px',
               cursor: 'pointer',
               color: 'var(--text-sec)',
@@ -249,16 +261,6 @@ export default function Navbar() {
               transition: 'all 0.2s',
             }}
             aria-label="Close menu"
-            onMouseEnter={e => {
-              e.currentTarget.style.background = 'rgba(255,80,80,0.1)';
-              e.currentTarget.style.borderColor = 'rgba(255,80,80,0.3)';
-              e.currentTarget.style.color = '#fc8181';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
-              e.currentTarget.style.color = 'var(--text-sec)';
-            }}
           >
             <X size={18} />
           </button>
@@ -291,56 +293,38 @@ export default function Navbar() {
                   padding: '14px 16px',
                   borderRadius: '10px',
                   textDecoration: 'none',
-                  background: isActive ? 'rgba(61,107,86,0.15)' : 'transparent',
-                  border: isActive ? '1px solid rgba(61,107,86,0.3)' : '1px solid transparent',
+                  background: isActive ? 'var(--nav-active-bg)' : 'transparent',
+                  border: isActive ? '1px solid var(--nav-active-border)' : '1px solid transparent',
                   transition: 'all 0.22s ease',
-                  // Staggered slide-in animation
                   transform: isOpen ? 'translateX(0)' : 'translateX(20px)',
                   opacity: isOpen ? 1 : 0,
                   transitionDelay: isOpen ? `${i * 0.05 + 0.1}s` : '0s',
                 }}
-                onMouseEnter={e => {
-                  if (!isActive) {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
-                  }
-                }}
-                onMouseLeave={e => {
-                  if (!isActive) {
-                    e.currentTarget.style.background = 'transparent';
-                    e.currentTarget.style.borderColor = 'transparent';
-                  }
-                }}
               >
-                {/* Number badge */}
                 <span style={{
                   fontFamily: 'JetBrains Mono, monospace',
                   fontSize: '11px',
-                  color: isActive ? 'var(--accent-lt)' : 'rgba(154,175,166,0.4)',
+                  color: isActive ? 'var(--text-pri)' : 'var(--text-sec)',
                   flexShrink: 0,
                   width: '22px',
                 }}>
                   {num}
                 </span>
-
-                {/* Label */}
                 <span style={{
                   fontSize: '17px',
                   fontWeight: isActive ? 600 : 400,
-                  color: isActive ? '#fff' : 'var(--text-sec)',
+                  color: isActive ? 'var(--text-pri)' : 'var(--text-sec)',
                   flex: 1,
                 }}>
                   {label}
                 </span>
-
-
               </a>
             );
           })}
         </nav>
 
         {/* Bottom CTA */}
-        <div style={{ marginTop: 'auto', padding: '28px 24px 0', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ marginTop: 'auto', padding: '28px 24px 0', borderTop: '1px solid var(--border)' }}>
           <a
             href="#contact"
             onClick={(e) => { e.preventDefault(); handleNav('#contact'); }}
@@ -358,6 +342,33 @@ export default function Navbar() {
           </p>
         </div>
       </div>
+
+      {/* ─── Responsive CSS ─── */}
+      <style>{`
+        /* Desktop: show nav links + right side, hide mobile hamburger */
+        .nav-desktop-links {
+          display: flex;
+        }
+        .nav-desktop-right {
+          display: flex;
+        }
+        .nav-mobile-right {
+          display: none;
+        }
+
+        /* Mobile/Tablet: hide desktop nav, show hamburger */
+        @media (max-width: 1024px) {
+          .nav-desktop-links {
+            display: none !important;
+          }
+          .nav-desktop-right {
+            display: none !important;
+          }
+          .nav-mobile-right {
+            display: flex !important;
+          }
+        }
+      `}</style>
     </>
   );
 }
