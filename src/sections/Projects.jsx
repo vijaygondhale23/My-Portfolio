@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Github, ExternalLink, Calendar } from 'lucide-react';
 import Starfield from '../components/Starfield';
+import { useTheme } from '../ThemeContext';
 
 const PROJECTS = [
   {
@@ -16,18 +17,8 @@ const PROJECTS = [
     accent: '#3D6B56',
     badge: 'Frontend',
     emoji: '📋',
-    logoNode: (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#1e40af' }}>
-          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          <path d="M19.13 5.05a10 10 0 1 1-14.26 0"/>
-        </svg>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1 }}>
-          <span style={{ fontSize: '22px', fontWeight: 800, color: '#1e40af', letterSpacing: '1px' }}>PROJECT</span>
-          <span style={{ fontSize: '15px', fontWeight: 600, color: '#3b82f6', letterSpacing: '2px' }}>MANAGEMENT</span>
-        </div>
-      </div>
-    ),
+    image: '/prj-mgmt-system.png',
+    imageLight: '/prj-mgmt-system-light.png',
   },
   {
     id: 'student-record-system',
@@ -41,22 +32,15 @@ const PROJECTS = [
     accent: '#4e6b84',
     badge: 'Full-Stack',
     emoji: '🎓',
-    logoNode: (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#0f766e' }}>
-          <path d="M2 13v6c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-6M2 9v2M22 9v2M12 2s-3.5 2-8 3c0 0 1.5 6 8 8 6.5-2 8-8 8-8-4.5-1-8-3-8-3z"/>
-          <path d="M12 21v-4"/>
-        </svg>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1 }}>
-          <span style={{ fontSize: '22px', fontWeight: 800, color: '#0f766e', letterSpacing: '1px' }}>STUDENT</span>
-          <span style={{ fontSize: '15px', fontWeight: 600, color: '#14b8a6', letterSpacing: '2px' }}>RECORD SYSTEM</span>
-        </div>
-      </div>
-    ),
+    image: '/student-record-system.png',
+    imageLight: '/student-record-system-light.png',
   },
 ];
 
-const MotionCard = ({ project, i, inView }) => (
+const MotionCard = ({ project, i, inView }) => {
+  const { theme } = useTheme();
+  
+  return (
   <motion.div
     initial={{ opacity: 0, y: 50 }}
     animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -71,19 +55,17 @@ const MotionCard = ({ project, i, inView }) => (
       borderRadius: '12px', overflow: 'hidden',
       marginBottom: '4px', background: 'var(--card-bg)'
     }}>
-      <div
+      <img
+        src={theme === 'light' ? project.imageLight : project.image}
+        alt={project.title}
         style={{
           width: '100%', height: '100%',
-          display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center',
-          background: 'var(--surface)',
+          objectFit: 'cover',
           transition: 'transform 0.4s ease',
         }}
         onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
         onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-      >
-        {project.logoNode}
-      </div>
+      />
     </div>
 
     {/* Top row */}
@@ -217,7 +199,8 @@ const MotionCard = ({ project, i, inView }) => (
       View source code →
     </a>
   </motion.div>
-);
+  );
+};
 
 export default function Projects() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
