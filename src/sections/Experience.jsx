@@ -1,8 +1,4 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { MapPin, Calendar, ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
-import Starfield from '../components/Starfield';
 
 const EXPERIENCE = [
   {
@@ -13,10 +9,9 @@ const EXPERIENCE = [
     location: 'Mumbai, Maharashtra, India',
     start: 'Mar 2024',
     end: 'Jun 2024',
-    current: false,
     bullets: [
       'Developed and maintained automated test scripts using Python and Pyats for validating network features.',
-      'Performed functional, regression, and performance testing across Cisco\'s routing, switching, and transport modules.',
+      'Performed functional, regression, and performance testing across Cisco routing, switching, and transport modules.',
       'Integrated test automation with CI/CD pipelines using Jenkins and BitBucket CI for nightly and on-demand runs.',
       'Collaborated with cross-functional teams to deliver sprint goals within tight deadlines.',
     ],
@@ -25,161 +20,110 @@ const EXPERIENCE = [
 ];
 
 export default function Experience() {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 });
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <section id="experience" className="section-pad" ref={ref} style={{ position: 'relative', overflow: 'hidden' }}>
-      <Starfield />
-      <div className="container-max" style={{ position: 'relative', zIndex: 1 }}>
-        <motion.p
-          className="section-label"
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          style={{ marginBottom: '12px' }}
-        >
-          Work History
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, marginBottom: '64px', maxWidth: '540px', color: 'var(--text-pri)' }}
-        >
-          Where I've{' '}
-          <span className="grad-text">worked</span>
-        </motion.h2>
+    <div>
+      <span className="code-comment">// experience.ts — work history</span>
+      <h2 className="section-heading">
+        Where I've <span className="hl-cyan">Worked</span>
+      </h2>
+      <p className="section-subheading">// Professional experience timeline</p>
 
-        <div className="exp-timeline" style={{ position: 'relative', paddingLeft: '48px' }}>
-          {/* Timeline vertical line */}
-          <motion.div
-            initial={{ scaleY: 0 }}
-            animate={inView ? { scaleY: 1 } : {}}
-            transition={{ delay: 0.3, duration: 0.8, ease: 'easeOut' }}
-            style={{
-              position: 'absolute', left: '19px', top: '24px',
-              width: '2px', height: 'calc(100% - 24px)',
-              background: 'linear-gradient(to bottom, var(--accent), var(--timeline-color))',
-              transformOrigin: 'top',
-            }}
-          />
+      <div className="exp-timeline fade-up">
+        <div className="exp-line" />
 
-          {EXPERIENCE.map((job, i) => (
-            <motion.div
-              key={job.company + i}
-              initial={{ opacity: 0, x: -30 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ delay: 0.4 + i * 0.15, duration: 0.6 }}
-              style={{ position: 'relative', marginBottom: '32px' }}
-            >
-              {/* Timeline dot */}
-              <div className="exp-dot" style={{
-                position: 'absolute', left: -38, top: '24px',
-                width: '16px', height: '16px',
-                borderRadius: '50%',
-                background: job.current ? 'var(--accent)' : 'var(--surface)',
-                border: '2px solid var(--accent)',
-                boxShadow: job.current ? '0 0 16px var(--accent-glow)' : 'none',
-              }} />
-              {job.current && (
-                <div className="exp-dot-ring" style={{
-                  position: 'absolute', left: -41, top: '21px',
-                  width: '22px', height: '22px',
-                  borderRadius: '50%',
-                  border: '1px solid var(--border-hover)',
-                  animation: 'scroll-bounce 2s ease-in-out infinite',
-                }} />
-              )}
+        {EXPERIENCE.map((job, i) => (
+          <div key={i} style={{ position: 'relative', marginBottom: 24 }}>
+            <div className="exp-dot" />
+            <div className="exp-card">
+              {/* Header */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 14 }}>
+                <div>
+                  <div className="exp-company">{job.company}</div>
+                  <div className="exp-role">{job.role}</div>
+                  <div className="exp-team">{job.team}</div>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end' }}>
+                  <span className="exp-meta">📅 {job.start} — {job.end}</span>
+                  <span className="exp-meta">📍 {job.location}</span>
+                  <span style={{
+                    display: 'inline-block', padding: '2px 10px', borderRadius: 3,
+                    fontSize: 10, fontFamily: 'JetBrains Mono, monospace',
+                    background: 'rgba(78,201,176,0.1)', border: '1px solid rgba(78,201,176,0.3)',
+                    color: 'var(--syn-green)', marginTop: 4,
+                  }}>
+                    {job.type}
+                  </span>
+                </div>
+              </div>
 
-              {/* Card */}
-              <div
-                className="project-card"
-                style={{ cursor: 'default' }}
+              {/* Toggle */}
+              <button
+                onClick={() => setExpanded(p => !p)}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  color: 'var(--syn-faded)', fontSize: 12,
+                  fontFamily: 'JetBrains Mono, monospace',
+                  display: 'flex', alignItems: 'center', gap: 6,
+                  padding: 0, transition: 'color 0.2s', marginBottom: 4,
+                }}
+                onMouseEnter={e => e.currentTarget.style.color = 'var(--syn-white)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--syn-faded)'}
               >
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-                  <div>
-                    <div style={{ display: 'flex', align: 'center', gap: '10px', flexWrap: 'wrap', marginBottom: '6px' }}>
-                      <h3 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-pri)' }}>{job.company}</h3>
-                      {job.current && (
-                        <span className="pill" style={{ fontSize: '11px', padding: '3px 10px' }}>
-                          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px #4ade80', display: 'inline-block' }} />
-                          Current
-                        </span>
-                      )}
-                    </div>
-                    <p style={{ color: 'var(--accent-lt)', fontWeight: 600, fontSize: '15px', marginBottom: '4px' }}>{job.role}</p>
-                    <p style={{ color: 'var(--text-sec)', fontSize: '13px', fontFamily: 'JetBrains Mono, monospace' }}>{job.team}</p>
-                  </div>
+                {expanded ? '▾ hide details' : '▸ show details'}
+              </button>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-end' }}>
-                    <div style={{ display: 'flex', align: 'center', gap: '6px', color: 'var(--text-sec)', fontSize: '13px' }}>
-                      <Calendar size={13} />
-                      <span style={{ fontFamily: 'JetBrains Mono, monospace' }}>{job.start} — {job.end}</span>
-                    </div>
-                    <div style={{ display: 'flex', align: 'center', gap: '6px', color: 'var(--text-sec)', fontSize: '13px' }}>
-                      <MapPin size={13} />
-                      <span>{job.location}</span>
-                    </div>
+              {/* Bullets */}
+              {expanded && (
+                <div style={{ marginTop: 12 }}>
+                  {job.bullets.map((b, bi) => (
+                    <div key={bi} className="exp-bullet">{b}</div>
+                  ))}
+                  <div style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {job.tools.map(t => (
+                      <span key={t} className="exp-tool">{t}</span>
+                    ))}
                   </div>
                 </div>
+              )}
+            </div>
+          </div>
+        ))}
 
-                {/* Toggle */}
-                <button
-                  id="exp-toggle-btn"
-                  onClick={() => setExpanded(e => !e)}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: '6px',
-                    background: 'none', border: 'none', cursor: 'pointer',
-                    color: 'var(--text-sec)', fontSize: '13px', marginTop: '20px',
-                    fontFamily: 'JetBrains Mono, monospace', padding: 0,
-                    transition: 'color 0.2s',
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.color = 'var(--text-pri)'}
-                  onMouseLeave={e => e.currentTarget.style.color = 'var(--text-sec)'}
-                >
-                  {expanded ? <><ChevronUp size={14} /> Hide details</> : <><ChevronDown size={14} /> Show details</>}
-                </button>
-
-                {/* Expandable content */}
-                <motion.div
-                  initial={false}
-                  animate={{ height: expanded ? 'auto' : 0, opacity: expanded ? 1 : 0 }}
-                  transition={{ duration: 0.35, ease: 'easeInOut' }}
-                  style={{ overflow: 'hidden' }}
-                >
-                  <ul style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px', paddingLeft: '0', listStyle: 'none' }}>
-                    {job.bullets.map((b, bi) => (
-                      <li key={bi} style={{ display: 'flex', gap: '12px', color: 'var(--text-sec)', fontSize: '14px', lineHeight: 1.7 }}>
-                        <span style={{ color: 'var(--accent-lt)', marginTop: '2px', flexShrink: 0 }}>▶</span>
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '20px' }}>
-                    {job.tools.map(t => (
-                      <span
-                        key={t}
-                        style={{
-                          padding: '4px 12px', borderRadius: '6px',
-                          background: 'var(--tag-bg)',
-                          border: '1px solid var(--tag-border)',
-                          color: 'var(--accent-lt)',
-                          fontSize: '12px',
-                          fontFamily: 'JetBrains Mono, monospace',
-                        }}
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          ))}
+        {/* Open to work notice */}
+        <div style={{ position: 'relative', marginBottom: 0 }}>
+          <div style={{
+            position: 'absolute', left: -22, top: 14,
+            width: 12, height: 12, borderRadius: '50%',
+            background: '#4ade80', border: '2px solid var(--vsc-bg)',
+            boxShadow: '0 0 10px rgba(74,222,128,0.6)',
+            animation: 'scroll-bounce 2s ease-in-out infinite',
+          }} />
+          <div style={{
+            background: 'rgba(74,222,128,0.06)', border: '1px solid rgba(74,222,128,0.25)',
+            borderRadius: 6, padding: '20px 24px',
+            display: 'flex', alignItems: 'center', gap: 12,
+          }}>
+            <span style={{ fontSize: 20 }}>🚀</span>
+            <div>
+              <p style={{ color: '#4ade80', fontWeight: 600, fontSize: 14, marginBottom: 2 }}>
+                Open to Opportunities
+              </p>
+              <p style={{ color: 'var(--syn-faded)', fontSize: 12, fontFamily: 'JetBrains Mono, monospace' }}>
+                Actively seeking frontend / full-stack roles · Available immediately
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+
+      <style>{`
+        @keyframes scroll-bounce {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.2); opacity: 0.7; }
+        }
+      `}</style>
+    </div>
   );
 }

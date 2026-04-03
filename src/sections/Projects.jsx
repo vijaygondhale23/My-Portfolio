@@ -1,263 +1,96 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Github, ExternalLink, Calendar } from 'lucide-react';
-import Starfield from '../components/Starfield';
-import { useTheme } from '../ThemeContext';
-
 const PROJECTS = [
   {
     id: 'project-management',
+    category: 'FRONTEND • PRODUCTIVITY',
+    emoji: '📋',
     title: 'Project Management System',
-    duration: 'May – Jun 2024',
     description:
       'A full-featured task and project management frontend with responsive layout, intuitive drag-and-drop UX flows, real-time status tracking, and polished interactive UI components. Inspired by Trello/Linear design patterns.',
-    tech: ['HTML', 'Tailwind CSS', 'JavaScript', 'React'],
+    tech: ['React', 'Tailwind CSS', 'JavaScript', 'HTML5'],
     github: 'https://github.com/vijaygondhale23',
     live: '#',
-    accent: '#3D6B56',
-    badge: 'Frontend',
-    emoji: '📋',
-    image: '/prj-mgmt-system.png',
-    imageLight: '/prj-mgmt-system-light.png',
   },
   {
     id: 'student-record-system',
+    category: 'FULL STACK • EDUCATION',
+    emoji: '🎓',
     title: 'Student Record System',
-    duration: 'Dec 2024 – Jan 2025',
     description:
       'Full-stack CRUD application enabling complete student record administration with a responsive dashboard, real-time search, filtering, and pagination. Built on MERN stack with RESTful API design.',
-    tech: ['React', 'Node.js', 'MongoDB', 'Tailwind CSS'],
+    tech: ['React', 'Node.js', 'MongoDB', 'Express', 'Tailwind CSS'],
     github: 'https://github.com/vijaygondhale23',
     live: '#',
-    accent: '#4e6b84',
-    badge: 'Full-Stack',
-    emoji: '🎓',
-    image: '/student-record-system.png',
-    imageLight: '/student-record-system-light.png',
   },
 ];
 
-const MotionCard = ({ project, i, inView }) => {
-  const { theme } = useTheme();
-  
-  return (
-  <motion.div
-    initial={{ opacity: 0, y: 50 }}
-    animate={inView ? { opacity: 1, y: 0 } : {}}
-    transition={{ delay: 0.2 + i * 0.18, duration: 0.7, ease: 'easeOut' }}
-    className="project-card"
-    id={`project-card-${project.id}`}
-    style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
-  >
-    {/* Project Image */}
-    <div style={{
-      width: '100%', aspectRatio: '16/10',
-      borderRadius: '12px', overflow: 'hidden',
-      marginBottom: '4px', background: 'var(--card-bg)'
-    }}>
-      <img
-        src={theme === 'light' ? project.imageLight : project.image}
-        alt={project.title}
-        style={{
-          width: '100%', height: '100%',
-          objectFit: 'cover',
-          transition: 'transform 0.4s ease',
-        }}
-        onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
-        onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-      />
-    </div>
-
-    {/* Top row */}
-    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
-      <div>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '24px' }}>{project.emoji}</span>
-          <span
-            style={{
-              padding: '3px 12px', borderRadius: '20px', fontSize: '11px', fontWeight: 600,
-              fontFamily: 'JetBrains Mono, monospace', letterSpacing: '1px', textTransform: 'uppercase',
-              background: `${project.accent}22`,
-              border: `1px solid ${project.accent}55`,
-              color: 'var(--accent-lt)',
-            }}
-          >
-            {project.badge}
-          </span>
-        </div>
-        <h3 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-pri)', marginBottom: '6px' }}>
-          {project.title}
-        </h3>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-sec)', fontSize: '13px' }}>
-          <Calendar size={13} />
-          <span style={{ fontFamily: 'JetBrains Mono, monospace' }}>{project.duration}</span>
-        </div>
-      </div>
-
-      {/* Links */}
-      <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
-        {project.github && (
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noreferrer"
-            id={`github-${project.id}`}
-            style={{
-              width: 36, height: 36, borderRadius: '8px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'var(--tag-bg)',
-              border: '1px solid var(--tag-border)',
-              color: 'var(--text-sec)',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = 'var(--tag-hover-bg)';
-              e.currentTarget.style.borderColor = 'var(--tag-hover-border)';
-              e.currentTarget.style.color = 'var(--text-pri)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'var(--tag-bg)';
-              e.currentTarget.style.borderColor = 'var(--tag-border)';
-              e.currentTarget.style.color = 'var(--text-sec)';
-            }}
-            aria-label={`GitHub for ${project.title}`}
-          >
-            <Github size={16} />
-          </a>
-        )}
-        {project.live && (
-          <a
-            href={project.live}
-            target="_blank"
-            rel="noreferrer"
-            id={`live-${project.id}`}
-            style={{
-              width: 36, height: 36, borderRadius: '8px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'var(--tag-bg)',
-              border: '1px solid var(--tag-border)',
-              color: 'var(--text-sec)',
-              transition: 'all 0.2s',
-            }}
-            aria-label={`Live demo for ${project.title}`}
-          >
-            <ExternalLink size={16} />
-          </a>
-        )}
-      </div>
-    </div>
-
-    {/* Description */}
-    <p style={{ color: 'var(--text-sec)', fontSize: '14px', lineHeight: 1.8, flex: 1 }}>
-      {project.description}
-    </p>
-
-    {/* Tech stack */}
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: 'auto' }}>
-      {project.tech.map(t => (
-        <span
-          key={t}
-          style={{
-            padding: '5px 12px', borderRadius: '7px',
-            background: 'var(--tag-bg)',
-            border: '1px solid var(--tag-border)',
-            color: 'var(--text-sec)',
-            fontSize: '12px',
-            fontFamily: 'JetBrains Mono, monospace',
-            transition: 'all 0.2s',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = 'var(--tag-hover-bg)';
-            e.currentTarget.style.borderColor = 'var(--tag-hover-border)';
-            e.currentTarget.style.color = 'var(--text-pri)';
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = 'var(--tag-bg)';
-            e.currentTarget.style.borderColor = 'var(--tag-border)';
-            e.currentTarget.style.color = 'var(--text-sec)';
-          }}
-        >
-          {t}
-        </span>
-      ))}
-    </div>
-
-    {/* View source CTA */}
-    <a
-      href={project.github}
-      target="_blank"
-      rel="noreferrer"
-      style={{
-        display: 'flex', alignItems: 'center', gap: '6px',
-        color: 'var(--accent-lt)', fontSize: '13px', fontWeight: 600,
-        textDecoration: 'none', fontFamily: 'JetBrains Mono, monospace',
-        marginTop: '4px', transition: 'gap 0.2s',
-      }}
-      onMouseEnter={e => e.currentTarget.style.gap = '10px'}
-      onMouseLeave={e => e.currentTarget.style.gap = '6px'}
-    >
-      View source code →
-    </a>
-  </motion.div>
-  );
-};
-
 export default function Projects() {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
-
   return (
-    <section
-      id="projects"
-      className="section-pad"
-      ref={ref}
-      style={{ background: 'var(--bg-alt)', position: 'relative', overflow: 'hidden' }}
-    >
-      <Starfield />
-      <div className="container-max" style={{ position: 'relative', zIndex: 1 }}>
-        <motion.p
-          className="section-label"
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          style={{ marginBottom: '12px' }}
-        >
-          Selected Work
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, marginBottom: '64px', maxWidth: '540px', color: 'var(--text-pri)' }}
-        >
-          Things I've{' '}
-          <span className="grad-text">built</span>
-        </motion.h2>
+    <div>
+      <span className="code-comment">// projects.js — things I've built</span>
+      <h2 className="section-heading">
+        Featured <span className="hl-pink">Projects</span>
+      </h2>
+      <p className="section-subheading">// A selection of my work</p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
-          {PROJECTS.map((project, i) => (
-            <MotionCard key={project.id} project={project} i={i} inView={inView} />
-          ))}
-        </div>
+      <div className="projects-grid">
+        {PROJECTS.map((project, i) => (
+          <div key={project.id} className={`proj-card fade-up-${i + 1}`}>
+            {/* Category & links row */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div className="proj-category">{project.emoji} {project.category}</div>
+              <div className="proj-links">
+                {project.live && project.live !== '#' && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="proj-link"
+                  >
+                    Live ↗
+                  </a>
+                )}
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="proj-link"
+                >
+                  GitHub ↗
+                </a>
+              </div>
+            </div>
 
-        {/* More on GitHub */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.7, duration: 0.6 }}
-          style={{ textAlign: 'center', marginTop: '48px' }}
-        >
-          <a
-            href="https://github.com/vijaygondhale23"
-            target="_blank"
-            rel="noreferrer"
-            id="more-github"
-            className="btn-secondary"
-          >
-            <Github size={16} />
-            More on GitHub
-          </a>
-        </motion.div>
+            {/* Title */}
+            <h3 className="proj-title">{project.title}</h3>
+
+            {/* Description */}
+            <p className="proj-desc">{project.description}</p>
+
+            {/* Tech tags */}
+            <div className="proj-tags">
+              {project.tech.map(t => (
+                <span key={t} className="proj-tag">{t}</span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
-    </section>
+
+      {/* More on GitHub */}
+      <div style={{ textAlign: 'center', marginTop: 40 }} className="fade-up-3">
+        <a
+          href="https://github.com/vijaygondhale23"
+          target="_blank"
+          rel="noreferrer"
+          className="vsc-btn vsc-btn-outline"
+          style={{ display: 'inline-flex' }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+          </svg>
+          More on GitHub
+        </a>
+      </div>
+    </div>
   );
 }
